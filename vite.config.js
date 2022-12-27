@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
@@ -23,6 +24,12 @@ function generateManifest() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@/': `${path.resolve(__dirname, 'src')}/`,
+      // '@services': `${path.resolve(__dirname, 'src/services')}/`,
+    }
+  },
   plugins: [
     vue(),
     webExtension({

@@ -18,9 +18,15 @@
     "{{chrome}}.service_worker": "src/background.js",
     "{{firefox}}.scripts": ["src/background.js"]
   },
+  "content_scripts": [{
+    "matches": ["*://*/*"],
+    "run_at": "document_end",
+    "js": ["src/content-script/content.js"]
+  }],
   "permissions": [
-    "activeTab",
+    "tabs",
     "scripting",
+    "{{chrome}}.activeTab",
     "{{firefox}}.<all_urls>"
   ]
 }

@@ -1,54 +1,43 @@
 <script setup>
-import { onMounted } from 'vue'
-import { cpf } from '../generate'
+import { onMounted, ref } from 'vue'
+import PageService from '@/services/PageService'
+import { cpf, cnpj } from '@/pages/generators'
 
-function getLabel(htmlElement) {
-  let name = null;
-  if (htmlElement.name) return htmlElement.name;
-  
-  let element = htmlElement;
-  for (let i = 0; i < 10; i++) {
-    element = element.previousSibling
-    if (element.tagName === `LABEL`) return element.innerHTML;
-  }
-  
-  return name
-}
+let fields = ref([]);
 
-let fields = [];
-onMounted(() => {
-  console.log('document :>> ', document);
-  const elements = document.getElementsByTagName(`input`);
-  console.log('elements :>> ', elements);
-  [...elements].map(elmnt => fields.push({
-    html: elmnt,
-    type: elmnt.type,
-    name: getLabel(elmnt),
-    value: elmnt.value
-  }))
+onMounted(async () => {
+  await PageService.getElementsByTagName(`input`)
+    .then(({ data }) => {
+      fields.value = data;
+    });
 })
 
-const fillFields = () => {
-  alert(`WHAT`)
-  console.log('fields :>> ', fields);
-  fields.map(field => {
-    if (
-      field.type === `email` ||
-      [`email`, `e-mail`].includes(field.name.toLowerCase())
-    ) field.html.value = `teste@avenucode.com`;
+const fillFields = async () => {
+  try {
+    fields.value.map(field => {
+      PageService.sendRequest({ action: `console`, fun: `log`, params: field });
+      if (!field.html || !field.name) return;
 
-    if ([`nome`, `nome completo`].includes(field.name.toLowerCase())) {
-      field.html.value = `Nome Teste AvenuCode`
-    };
-
-    if (`cpf` === field.name.toLowerCase()) {
-      field.html.value = cpf();
-    };
-
-    if (`cnpj` === field.name.toLowerCase()) {
-      field.html.value = cnpj();
-    };
-  })
+      if (
+        field.type === `email` ||
+        [`email`, `e-mail`].includes(field.name.toLowerCase())
+      ) field.html.value = `teste@avenucode.com`;
+  
+      if ([`nome`, `nome completo`].includes(field.name.toLowerCase())) {
+        field.html.value = `Nome Teste AvenueCode`
+      };
+  
+      if (`cpf` === field.name.toLowerCase()) {
+        field.html.value = cpf();
+      };
+  
+      if (`cnpj` === field.name.toLowerCase()) {
+        field.html.value = cnpj();
+      };
+    })
+  } catch (error) {
+    PageService.sendRequest({ action: `console`, fun: `error`, params: error.message });
+  }
 }
 </script>
 
@@ -60,21 +49,19 @@ const fillFields = () => {
     <button class="flex" @click="fillFields">Preencher</button>
 
     <p>Lista de Campos</p>
-    <p v-if="!fields.length">Nenhum input Detectado na página</p>
+    <p v-if="fields.length === 0">Nenhum input Detectado na página</p>
     <table v-else>
       <thead>
-        <tr v-for="field in fields">
-          <td>Tipo</td>
-          <td>Nome</td>
-          <td>Label</td>
-          <td>Valor</td>
+        <tr>
+          <th>Tipo</th>
+          <th>Nome</th>
+          <th>Valor</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="field in fields">
           <td>{{ field.type }}</td>
           <td>{{ field.name }}</td>
-          <td>{{ field.label }}</td>
           <td>{{ field.value }}</td>
         </tr>
       </tbody>
@@ -83,6 +70,10 @@ const fillFields = () => {
 </template>
 
 <style>
+.flex {
+  padding: 1rem;
+}
+
 html,
 body {
   width: 300px;
@@ -109,17 +100,19 @@ img {
   height: 200px;
 }
 
+h1, p, table {
+  color: white;
+  margin: 0;
+}
+
 h1 {
   font-size: 18px;
-  color: white;
   font-weight: bold;
-  margin: 0;
 }
 
 p {
   color: white;
   opacity: 0.7;
-  margin: 0;
 }
 
 code {
