@@ -1,7 +1,11 @@
 import browser from "webextension-polyfill";
 import ParserService from "@/services/ParserService";
-// console.clear();
-// console.log("Hello from the content!");
+
+
+if (env && env.mode && env.mode === `development`) {
+    console.clear();
+    console.log("Hello from the content!");
+}
 
 function validateRequest(request) {
     if (!request.action) { throw new Error(`Action can't be Empty!`); }
@@ -34,19 +38,22 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
             console[Request.fun](Request.params)
             Response.message = `Success`
             // console.log(`%c OBAAAAA`, "color:green;");
-            // console.log(`%c OBAAAAA`, "color:red;");
             break;
         case `document`:
             Response.message = `Success`
             Response.data = document[Request.fun](Request.params)
             Response.data = Request.parser
                 ? ParserService[Request.parser](Response.data)
-                : Response.data
+                : Response.data;
             break;
-        // case `input`:
-        //     Response.message = `Success`
-        //     Request.fun[Request.params.prop] = Request.params.value
-        //     break;
+        case `input`:
+            Response.message = `Success`;
+            const input = document.getElementById(Request.params.id);
+            Request.params.prop ?
+                input[Request.params.prop] = Request.params.value : null
+            Request.params.events && Array.isArray(Request.params.events) ?
+                Request.params.events.map(evt => input.dispatchEvent(new Event(evt))) : null
+            break;
         case `function`:
             try {
                 Response.message = `Success`

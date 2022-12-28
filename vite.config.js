@@ -1,5 +1,5 @@
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
 
@@ -22,20 +22,32 @@ function generateManifest() {
   };
 }
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@/': `${path.resolve(__dirname, 'src')}/`,
-      // '@services': `${path.resolve(__dirname, 'src/services')}/`,
-    }
-  },
-  plugins: [
-    vue(),
-    webExtension({
-      assets: "public",
-      webExtConfig: loadWebExtConfig(),
-      manifest: generateManifest,
-    }),
-  ],
-});
+export default ({ mode }) => {
+
+  // const env = loadEnv(mode, process.cwd(), ``);
+  // Load app-level env vars to node-level env vars.
+  // process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+
+  // https://vitejs.dev/config/
+  return defineConfig({
+    define: {
+      // env: process.env,
+      env: {mode},
+    },
+    resolve: {
+      alias: {
+        '@/': `${path.resolve(__dirname, 'src')}/`,
+        // '@services': `${path.resolve(__dirname, 'src/services')}/`,
+      }
+    },
+    plugins: [
+      vue(),
+      webExtension({
+        assets: "public",
+        webExtConfig: loadWebExtConfig(),
+        manifest: generateManifest,
+      }),
+    ],
+  })
+  
+}

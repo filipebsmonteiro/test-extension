@@ -15,25 +15,50 @@ onMounted(async () => {
 const fillFields = async () => {
   try {
     fields.value.map(field => {
-      PageService.sendRequest({ action: `console`, fun: `log`, params: field });
-      if (!field.html || !field.name) return;
+      // PageService.sendRequest({ action: `console`, fun: `log`, params: field });
+      if (!field.id || !field.name) return;
+      field = { ...field, name: field.name.toLowerCase() };
+      const events = [`change`, `input`];
 
-      if (
-        field.type === `email` ||
-        [`email`, `e-mail`].includes(field.name.toLowerCase())
-      ) field.html.value = `teste@avenucode.com`;
+      if (field.type === `email` || [`email`, `e-mail`].includes(field.name))
+        PageService.sendRequest({ action: `input`, params: {
+          id: field.id,
+          prop: `value`,
+          value: `teste@avenuecode.com`,
+          events,
+        } });
   
-      if ([`nome`, `nome completo`].includes(field.name.toLowerCase())) {
-        field.html.value = `Nome Teste AvenueCode`
-      };
+      if ([`nome`, `nome completo`].includes(field.name))
+        PageService.sendRequest({ action: `input`, params: {
+          id: field.id,
+          prop: `value`,
+          value: `Nome Teste AvenueCode`,
+          events,
+        } });
   
-      if (`cpf` === field.name.toLowerCase()) {
-        field.html.value = cpf();
-      };
+      if ([`telefone`, `celular`, `phone`].includes(field.name))
+        PageService.sendRequest({ action: `input`, params: {
+          id: field.id,
+          prop: `value`,
+          value: `11909090909`,
+          events,
+        } });
   
-      if (`cnpj` === field.name.toLowerCase()) {
-        field.html.value = cnpj();
-      };
+      if (`cpf` === field.name)
+        PageService.sendRequest({ action: `input`, params: {
+          id: field.id,
+          prop: `value`,
+          value: cpf(),
+          events,
+        } });
+  
+      if (`cnpj` === field.name)
+        PageService.sendRequest({ action: `input`, params: {
+          id: field.id,
+          prop: `value`,
+          value: cnpj(),
+          events,
+        } });
     })
   } catch (error) {
     PageService.sendRequest({ action: `console`, fun: `error`, params: error.message });

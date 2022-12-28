@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 export default class ParserService {
     constructor() {}
 
@@ -12,11 +14,16 @@ export default class ParserService {
         }
         
         return name
-    } 
+    }
+
+    static getIdentifier(htmlElement) {
+        if (!htmlElement.id) htmlElement.id = uuid();
+        return htmlElement.id
+    }
 
     static HTMLCollectionToFields(collection) {
         return Array.from(collection).map(elmnt => ({
-            html: elmnt,
+            id: this.getIdentifier(elmnt),
             type: elmnt.type,
             name: this.getName(elmnt),
             value: elmnt.value
