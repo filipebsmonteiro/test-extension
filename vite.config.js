@@ -5,6 +5,7 @@ import webExtension, { readJsonFile } from "vite-plugin-web-extension";
 
 function loadWebExtConfig() {
   try {
+    // eslint-disable-next-line no-undef
     return require("./.web-ext.config.json");
   } catch {
     return undefined;
@@ -23,17 +24,18 @@ function generateManifest() {
 }
 
 export default ({ mode }) => {
-
+  console.log("mode :>> ", mode);
   // https://vitejs.dev/config/
   return defineConfig({
     define: {
-      env: {mode},
+      _ENV: { mode },
     },
     resolve: {
       alias: {
-        '@/': `${path.resolve(__dirname, 'src')}/`,
+        // eslint-disable-next-line no-undef
+        "@/": `${path.resolve(__dirname, "src")}/`,
         // '@services': `${path.resolve(__dirname, 'src/services')}/`,
-      }
+      },
     },
     plugins: [
       vue(),
@@ -43,6 +45,5 @@ export default ({ mode }) => {
         manifest: generateManifest,
       }),
     ],
-  })
-
-}
+  });
+};

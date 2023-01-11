@@ -10,10 +10,21 @@
   <body></body>
 
   <script type="module">
-    import "./css/index.scss";
-    import Popup from "./pages/Popup.vue";
     import { createApp } from "vue";
+    import { createPinia } from "pinia";
 
-    createApp(Popup).mount("body");
+    import App from "./App.vue";
+    import router from "./router";
+    import ErrorService from "../services/ErrorService.js";
+
+    import "./assets/main.scss";
+
+    const app = createApp(App);
+
+    app.config.errorHandler = (error) => ErrorService.onError(error);
+
+    app.use(createPinia())
+      .use(router)
+      .mount("body");
   </script>
 </html>
