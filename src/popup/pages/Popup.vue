@@ -1,16 +1,22 @@
 <script setup>
+import { faker } from '@faker-js/faker/locale/pt_BR';
 import { onMounted, ref } from 'vue'
 import PageService from '@/services/PageService'
 import { cpf, cnpj } from '@/popup/generators'
 
 let fields = ref([]);
 
-onMounted(async () => {
-  await PageService.getElementsByTagName(`input`)
-    .then(({ data }) => {
-      fields.value = data;
-    });
-})
+const loadFields = () => {
+    PageService.getElementsByTagName(`input`)
+      .then(({ data }) => {
+        fields.value = data.filter(f => f.type !== `checkbox`);
+      })
+      .catch(error => {
+        PageService.sendRequest({ action: `console`, fun: `error`, params: error.message });
+      });
+}
+
+onMounted(() => loadFields())
 
 const fillFields = async () => {
   try {
@@ -24,7 +30,7 @@ const fillFields = async () => {
         PageService.sendRequest({ action: `input`, params: {
           id: field.id,
           prop: `value`,
-          value: `teste@avenuecode.com`,
+          value: faker.internet.email(undefined, undefined, `avenuecode.com`),
           events,
         } });
   
@@ -32,7 +38,7 @@ const fillFields = async () => {
         PageService.sendRequest({ action: `input`, params: {
           id: field.id,
           prop: `value`,
-          value: `Nome Teste AvenueCode`,
+          value: faker.name.fullName(),
           events,
         } });
   
@@ -40,11 +46,11 @@ const fillFields = async () => {
         PageService.sendRequest({ action: `input`, params: {
           id: field.id,
           prop: `value`,
-          value: `11909090909`,
+          value: faker.phone.number(),
           events,
         } });
   
-      if (`cpf` === field.name)
+      if ([`cpf`, `cpf/cnpj`].includes(field.name))
         PageService.sendRequest({ action: `input`, params: {
           id: field.id,
           prop: `value`,
@@ -67,11 +73,10 @@ const fillFields = async () => {
 </script>
 
 <template>
-  <div>
+  <div style="overflow: scroll;">
     <!-- <img src="../../public/icon-with-shadow.svg" /> --->
-    <h1>Preencher Campos</h1>
-
-    <button class="flex" @click="fillFields">Preencher</button>
+    <button class="flex" @click="loadFields">Recarregar Campos</button>
+    <button class="flex" @click="fillFields">Preencher Campos</button>
 
     <p>Lista de Campos</p>
     <p v-if="fields.length === 0">Nenhum input Detectado na página</p>
