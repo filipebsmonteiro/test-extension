@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import PageService from '@/services/PageService'
-import { cpf, cnpj } from '@/pages/generators'
+import { cpf, cnpj } from '@/popup/generators'
 
 let fields = ref([]);
 

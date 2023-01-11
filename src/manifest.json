@@ -9,19 +9,19 @@
     "128": "icon/128.png"
   },
   "{{chrome}}.action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "src/popup/index.html"
   },
   "{{firefox}}.browser_action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "src/popup/index.html"
   },
   "background": {
-    "{{chrome}}.service_worker": "src/background.js",
-    "{{firefox}}.scripts": ["src/background.js"]
+    "{{chrome}}.service_worker": "src/background/main.js",
+    "{{firefox}}.scripts": ["src/background/main.js"]
   },
   "content_scripts": [{
     "matches": ["*://*/*"],
     "run_at": "document_end",
-    "js": ["src/content-script/content.js"]
+    "js": ["src/content-script/main.js"]
   }],
   "permissions": [
     "tabs",
