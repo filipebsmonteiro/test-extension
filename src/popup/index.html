@@ -12,6 +12,8 @@
   <script type="module">
     import { createApp } from "vue";
     import { createPinia } from "pinia";
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+    import "./assets/icons.js";
 
     import App from "./App.vue";
     import router from "./router";
@@ -25,6 +27,7 @@
 
     app.use(createPinia())
       .use(router)
+      .component('font-awesome-icon', FontAwesomeIcon)
       .mount("body");
   </script>
 </html>

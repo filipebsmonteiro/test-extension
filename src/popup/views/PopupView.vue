@@ -20,7 +20,7 @@ const loadFields = () => {
     });
 };
 
-onMounted(() => loadFields())
+onMounted(() => loadFields());
 
 const fillFields = async () => {
   try {
@@ -99,15 +99,15 @@ const fillFields = async () => {
 
 <template>
   <div class="btn-group">
-    <button @click="loadFields">Recarregar Campos</button>
-    <button @click="fillFields">Preencher Campos</button>
+    <button class="btn-xs" @click="loadFields">Recarregar Campos</button>
+    <button class="btn-xs" @click="fillFields">Preencher Campos</button>
   </div>
 
   <p v-if="fields.length === 0" class="flex justify-center m-4">
     Nenhum input Detectado na página
   </p>
   <div v-else>
-    <table class="mt-2">
+    <table class="table w-full mt-2">
       <thead>
         <tr>
           <th>Tipo</th>
