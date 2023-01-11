@@ -73,7 +73,7 @@ const fillFields = async () => {
 </script>
 
 <template>
-  <div style="overflow: scroll;">
+  <div class="testes" style="overflow: scroll;">
     <!-- <img src="../../public/icon-with-shadow.svg" /> --->
     <button class="flex" @click="loadFields">Recarregar Campos</button>
     <button class="flex" @click="fillFields">Preencher Campos</button>
@@ -100,55 +100,7 @@ const fillFields = async () => {
 </template>
 
 <style>
-.flex {
-  padding: 1rem;
-}
-
-html,
-body {
-  width: 300px;
-  height: 400px;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  background-color: rgb(36, 36, 36);
-}
-
-body > div {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-}
-
-img {
-  width: 200px;
-  height: 200px;
-}
-
-h1, p, table {
-  color: white;
-  margin: 0;
-}
-
-h1 {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-p {
-  color: white;
-  opacity: 0.7;
-}
-
-code {
-  font-size: 12px;
-  padding: 2px 4px;
-  background-color: #ffffff24;
-  border-radius: 2px;
+.testes {
+  @apply bg-black text-white;
 }
 </style>

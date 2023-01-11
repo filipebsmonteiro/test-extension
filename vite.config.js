@@ -1,5 +1,5 @@
 import path from "path";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
 
@@ -24,14 +24,9 @@ function generateManifest() {
 
 export default ({ mode }) => {
 
-  // const env = loadEnv(mode, process.cwd(), ``);
-  // Load app-level env vars to node-level env vars.
-  // process.env = {...process.env, ...loadEnv(mode, process.cwd())};
-
   // https://vitejs.dev/config/
   return defineConfig({
     define: {
-      // env: process.env,
       env: {mode},
     },
     resolve: {
@@ -49,5 +44,5 @@ export default ({ mode }) => {
       }),
     ],
   })
-  
+
 }

@@ -2,7 +2,6 @@
   "name": "test-helper",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite build --mode development --watch",
     "build": "vite build"
@@ -14,6 +13,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
     "vite": "^4.0.0",
     "vite-plugin-web-extension": "^1.4.8",
