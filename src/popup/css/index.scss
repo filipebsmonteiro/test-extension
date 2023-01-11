@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* html, */
+body {
+    @apply bg-slate-800 text-white p-2 m-0 rounded overflow-scroll;
+    min-width: 300px;
+    // min-height: 400px;
+}
+
+button {
+    @apply py-1 px-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md
+        hover:bg-blue-700 
+        focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+}
+
+table {
+    width: 100%;
+
+    thead {
+        th {
+            @apply border-b dark:border-slate-600 font-medium p-1 pl-2 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left;
+        }
+    }
+    tbody {
+        td {
+            @apply border-b border-slate-100 dark:border-slate-700 p-1 pl-2 text-slate-500 dark:text-slate-400;
+        }
+    }
+}

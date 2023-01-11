@@ -69,38 +69,45 @@ const fillFields = async () => {
   } catch (error) {
     PageService.sendRequest({ action: `console`, fun: `error`, params: error.message });
   }
+
+  loadFields();
 }
 </script>
 
 <template>
-  <div class="testes" style="overflow: scroll;">
-    <!-- <img src="../../public/icon-with-shadow.svg" /> --->
-    <button class="flex" @click="loadFields">Recarregar Campos</button>
-    <button class="flex" @click="fillFields">Preencher Campos</button>
+    <div class="btn-group">
+      <button @click="loadFields">Recarregar Campos</button>
+      <button @click="fillFields">Preencher Campos</button>
+    </div>
 
-    <p>Lista de Campos</p>
-    <p v-if="fields.length === 0">Nenhum input Detectado na página</p>
-    <table v-else>
-      <thead>
-        <tr>
-          <th>Tipo</th>
-          <th>Nome</th>
-          <th>Valor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="field in fields">
-          <td>{{ field.type }}</td>
-          <td>{{ field.name }}</td>
-          <td>{{ field.value }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <p
+      v-if="fields.length === 0"
+      class="flex justify-center m-4">
+      Nenhum input Detectado na página
+    </p>
+    <div v-else>
+      <!-- <p>Lista de Campos</p> -->
+      <table class="mt-2">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Nome</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="field in fields">
+            <td>{{ field.type }}</td>
+            <td>{{ field.name }}</td>
+            <td>{{ field.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </template>
 
-<style>
-.testes {
-  @apply bg-black text-white;
+<style lang="scss">
+.btn-group {
+  @apply flex justify-between;
 }
 </style>
