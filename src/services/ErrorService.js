@@ -38,7 +38,6 @@ export default class ErrorService {
   static initHandler() {
     const scope = this;
     window.onerror = (message, url, lineNo, columnNo, error) => {
-      console.log(error, "test");
       if (error) {
         scope.onError(error);
         console.log(message, url, lineNo, columnNo, error);

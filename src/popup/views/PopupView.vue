@@ -1,97 +1,53 @@
 <script setup>
 import { faker } from "@faker-js/faker/locale/pt_BR";
 import { onMounted, ref } from "vue";
-import PageService from "@/services/PageService";
+import PopupService from "@/services/popup/PopupService";
 import { cpf, cnpj } from "@/faker/generators";
 
 let fields = ref([]);
 
 const loadFields = () => {
-  PageService.getElementsByTagName(`input`)
-    .then(({ data }) => {
-      fields.value = data.filter((f) => f.type !== `checkbox`);
-    })
-    .catch((error) => {
-      PageService.sendRequest({
-        action: `console`,
-        fun: `error`,
-        params: error.message,
-      });
-    });
+  PopupService.getElementsByTagName(`input`).then(({ data }) => {
+    fields.value = data.filter(
+      (f) => f.type !== `checkbox` && f.isVisible && f.id && f.name
+    );
+  });
 };
 
 onMounted(() => loadFields());
 
 const fillFields = async () => {
-  try {
-    fields.value.map((field) => {
-      // PageService.sendRequest({ action: `console`, fun: `log`, params: field });
-      if (!field.id || !field.name) return;
-      field = { ...field, name: field.name.toLowerCase() };
-      const events = [`change`, `input`];
+  fields.value.map((field) => {
+    field = { ...field, name: field.name.toLowerCase() };
+    let payload = {
+      action: `setProp`,
+      params: {
+        id: field.id,
+        prop: `value`,
+        value: null,
+        events: [`change`, `input`],
+      },
+    };
 
-      if (field.type === `email` || [`email`, `e-mail`].includes(field.name))
-        PageService.sendRequest({
-          action: `input`,
-          params: {
-            id: field.id,
-            prop: `value`,
-            value: faker.internet.email(undefined, undefined, `avenuecode.com`),
-            events,
-          },
-        });
+    if (field.type === `email` || [`email`, `e-mail`].includes(field.name))
+      payload.params.value = faker.internet.email(
+        undefined,
+        undefined,
+        `avenuecode.com`
+      );
 
-      if ([`nome`, `nome completo`].includes(field.name))
-        PageService.sendRequest({
-          action: `input`,
-          params: {
-            id: field.id,
-            prop: `value`,
-            value: faker.name.fullName(),
-            events,
-          },
-        });
+    if ([`nome`, `nome completo`].includes(field.name))
+      payload.params.value = faker.name.fullName();
 
-      if ([`telefone`, `celular`, `phone`].includes(field.name))
-        PageService.sendRequest({
-          action: `input`,
-          params: {
-            id: field.id,
-            prop: `value`,
-            value: faker.phone.number(),
-            events,
-          },
-        });
+    if ([`telefone`, `celular`, `phone`].includes(field.name))
+      payload.params.value = faker.phone.number();
 
-      if ([`cpf`, `cpf/cnpj`].includes(field.name))
-        PageService.sendRequest({
-          action: `input`,
-          params: {
-            id: field.id,
-            prop: `value`,
-            value: cpf(),
-            events,
-          },
-        });
+    if ([`cpf`, `cpf/cnpj`].includes(field.name)) payload.params.value = cpf();
 
-      if (`cnpj` === field.name)
-        PageService.sendRequest({
-          action: `input`,
-          params: {
-            id: field.id,
-            prop: `value`,
-            value: cnpj(),
-            events,
-          },
-        });
-    });
-  } catch (error) {
-    PageService.sendRequest({
-      action: `console`,
-      fun: `error`,
-      params: error.message,
-    });
-  }
+    if (`cnpj` === field.name) payload.params.value = cnpj();
+
+    PopupService.sendRequestToTab(payload);
+  });
 
   loadFields();
 };

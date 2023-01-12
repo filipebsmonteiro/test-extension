@@ -1,32 +1,39 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
 export default class ParserService {
-    constructor() {}
+  constructor() {}
 
-    static getName(htmlElement) {
-        let name = null;
-        if (htmlElement.name) return htmlElement.name;
-        
-        let element = htmlElement;
-        for (let i = 0; i < 10; i++) {
-            element = element?.previousSibling
-            if (element && element.tagName === `LABEL`) return element.innerHTML;
-        }
-        
-        return name
+  static getName(htmlElement) {
+    let name = null;
+    if (htmlElement.name) return htmlElement.name;
+
+    let element = htmlElement;
+    for (let i = 0; i < 10; i++) {
+      element = element?.previousSibling;
+      if (element && element.tagName === `LABEL`) return element.innerHTML;
     }
 
-    static getIdentifier(htmlElement) {
-        if (!htmlElement.id) htmlElement.id = uuid();
-        return htmlElement.id
-    }
+    return name;
+  }
 
-    static HTMLCollectionToFields(collection) {
-        return Array.from(collection).map(elmnt => ({
-            id: this.getIdentifier(elmnt),
-            type: elmnt.type,
-            name: this.getName(elmnt),
-            value: elmnt.value
-        }))
-    }
+  static getIdentifier(htmlElement) {
+    if (!htmlElement.id) htmlElement.id = uuid();
+    return htmlElement.id;
+  }
+
+  static HTMLCollectionToFields(collection) {
+    return Array.from(collection).map((elmnt) => {
+      const isVisible = (field) =>
+        field.type !== `hidden` ||
+        field.style.display !== `none` ||
+        field.style.visibility !== `hidden`;
+      return {
+        id: this.getIdentifier(elmnt),
+        type: elmnt.type,
+        name: this.getName(elmnt),
+        value: elmnt.value,
+        isVisible: isVisible(window.getComputedStyle(elmnt)),
+      }
+    });
+  }
 }

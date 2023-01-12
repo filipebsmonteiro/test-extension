@@ -24,7 +24,6 @@ function generateManifest() {
 }
 
 export default ({ mode }) => {
-  console.log("mode :>> ", mode);
   // https://vitejs.dev/config/
   return defineConfig({
     define: {

@@ -1,23 +1,18 @@
 import browser from "webextension-polyfill";
-console.log("Hello from the background!");
 
+// eslint-disable-next-line no-undef
+if (_ENV && _ENV.mode && _ENV.mode === `development`) {
+  // console.clear();
+  console.log("background/main.js Loaded!");
+}
 
 function handleMessage(request, sender, sendResponse) {
   console.log(`content script sent a message: ${request.content}`);
-  sendResponse({response: "response from background script"});
+  sendResponse({ response: "response from background script" });
 }
 
 browser.runtime.onMessage.addListener(handleMessage);
 
-
-// browser.tabs.query({currentWindow: true, active: true})
-//   .then((tab) => { 
-//     console.log('tab :>> ', tab);
-//   })
-//   .catch((err) => {
-//     console.log('err :>> ', err);
-//   })
-  
 // browser.runtime.onInstalled.addListener((details) => {
 //   console.log("Extension installed:", details);
 // });
