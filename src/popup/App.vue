@@ -9,12 +9,16 @@ if (!route.name) {
 </script>
 
 <template>
-  <RouterLink
-    :to="$route.name === `config` ? `/` : `/config`"
-    class="btn-sm btn-outline btn-circle m-2"
-  >
-    <font-awesome-icon :icon="['fas', 'gear']" />
-  </RouterLink>
+  <div class="flex justify-between m-2">
+    <RouterLink
+      :to="$route.name === `config` ? `/` : `/config`"
+      class="hover-point"
+    >
+      <font-awesome-icon :icon="['fas', 'gear']" />
+    </RouterLink>
+    <h3>{{ $route.meta.title || `` }}</h3>
+    <span style="color: transparent">A</span>
+  </div>
 
   <div class="p-2">
     <RouterView />

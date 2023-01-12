@@ -12,6 +12,7 @@ const router = createRouter({
           path: "/",
           name: "home",
           component: () => import("@/popup/views/PopupView.vue"),
+          meta: { title: `Form` },
         },
         {
           path: "/config",
@@ -20,6 +21,7 @@ const router = createRouter({
           // this generates a separate chunk (About.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () => import("@/popup/views/ConfigView.vue"),
+          meta: { title: `Config` },
         },
       ],
     },

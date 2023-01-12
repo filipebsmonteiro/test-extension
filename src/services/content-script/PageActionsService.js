@@ -38,4 +38,16 @@ export default class PageActionsService {
       this.Response.message = error.message;
     }
   }
+
+  setStorage({ params: { storage, prop, value } }) {
+    if (storage === `local`) {
+      localStorage.setItem(prop, value);
+    }
+  }
+
+  getStorage({ params: { storage, prop } }) {
+    if (storage === `local`) {
+      this.Response.data = localStorage.getItem(prop);
+    }
+  }
 }

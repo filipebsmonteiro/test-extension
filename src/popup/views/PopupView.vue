@@ -1,5 +1,5 @@
 <script setup>
-import { faker } from "@faker-js/faker/locale/pt_BR";
+import { faker } from "@faker-js/faker";
 import { onMounted, ref } from "vue";
 import PopupService from "@/services/popup/PopupService";
 import { cpf, cnpj } from "@/faker/generators";
@@ -14,7 +14,16 @@ const loadFields = () => {
   });
 };
 
-onMounted(() => loadFields());
+onMounted(() => {
+  loadFields();
+  PopupService.sendRequestToTab({
+    action: `getStorage`,
+    params: { storage: `local`, prop: `language` },
+  }).then(({ data }) => {
+    faker.locale = data || `pt_BR`;
+  });
+
+});
 
 const fillFields = async () => {
   fields.value.map((field) => {
@@ -54,9 +63,9 @@ const fillFields = async () => {
 </script>
 
 <template>
-  <div class="btn-group">
-    <button class="btn-xs" @click="loadFields">Recarregar Campos</button>
-    <button class="btn-xs" @click="fillFields">Preencher Campos</button>
+  <div class="flex justify-between">
+    <button class="btn-xs rounded" @click="loadFields">Recarregar Campos</button>
+    <button class="btn-xs rounded" @click="fillFields">Preencher Campos</button>
   </div>
 
   <p v-if="fields.length === 0" class="flex justify-center m-4">
@@ -81,9 +90,3 @@ const fillFields = async () => {
     </table>
   </div>
 </template>
-
-<style lang="scss">
-.btn-group {
-  @apply flex justify-between;
-}
-</style>
