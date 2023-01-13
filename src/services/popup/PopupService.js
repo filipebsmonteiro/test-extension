@@ -21,4 +21,18 @@ export default class PopupService {
       parser: `HTMLCollectionToFields`,
     });
   }
+
+  static getFromStorage(key) {
+    return this.sendRequestToTab({
+      action: `getStorage`,
+      params: { storage: `local`, prop: key },
+    });
+  }
+
+  static setOnStorage(key, value) {
+    return this.sendRequestToTab({
+      action: `setStorage`,
+      params: { storage: `local`, prop: key, value },
+    });
+  }
 }

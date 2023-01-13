@@ -12,18 +12,19 @@ watch(darkMode, (newValue) =>
 );
 
 let lang = ref(`pt_BR`);
-watch(lang, (newValue) =>
-  PopupService.sendRequestToTab({
-    action: `setStorage`,
-    params: { storage: `local`, prop: `language`, value: newValue },
-  })
+watch(lang, (newValue) => PopupService.setOnStorage(`language`, newValue));
+
+let domain = ref(``);
+watch(domain, (newValue) =>
+  PopupService.setOnStorage(`email.domain`, newValue)
 );
+
 onMounted(() => {
-  PopupService.sendRequestToTab({
-    action: `getStorage`,
-    params: { storage: `local`, prop: `language` },
-  }).then(({ data }) => {
+  PopupService.getFromStorage(`language`).then(({ data }) => {
     lang.value = data || lang.value;
+  });
+  PopupService.getFromStorage(`email.domain`).then(({ data }) => {
+    domain.value = data || domain.value;
   });
 });
 
@@ -97,7 +98,7 @@ const languages = [
     <hr />
     <label class="label flex justify-between flex-row w-full">
       <span class="label-text">Language</span>
-      <select v-model="lang" class="select select-ghost select-sm max-w-xs">
+      <select v-model="lang" class="select select-bordered select-sm max-w-xs">
         <option
           v-for="language in languages"
           :value="language.value"
@@ -106,6 +107,16 @@ const languages = [
           {{ language.label }}
         </option>
       </select>
+    </label>
+    <hr />
+    <label class="label flex justify-between flex-row w-full">
+      <span class="label-text">Email Domain</span>
+      <input
+        v-model="domain"
+        type="text"
+        placeholder="type domain"
+        class="input input-sm max-w-xs"
+      />
     </label>
   </div>
 </template>

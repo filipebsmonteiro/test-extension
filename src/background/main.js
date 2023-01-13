@@ -6,16 +6,36 @@ if (_ENV && _ENV.mode && _ENV.mode === `development`) {
   console.log(`background/main.js Loaded!`);
 }
 
-function handleMessage(request, sender, sendResponse) {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log(`content script sent a message: ${request.content}`);
   sendResponse({ response: `response from background script` });
-}
+});
 
-browser.runtime.onMessage.addListener(handleMessage);
-
-// browser.runtime.onInstalled.addListener((details) => {
-//   console.log("Extension installed:", details);
-// });
+browser.tabs.onUpdated.addListener((tabId, { status }, tab) => {
+  if (status === `complete`) {
+    // tab: {
+    //   active,
+    //   audible,
+    //   autoDiscardable,
+    //   discarded,
+    //   favIconUrl,
+    //   groupId,
+    //   height,
+    //   highlighted,
+    //   id,
+    //   incognito,
+    //   index,
+    //   mutedInfo: { muted },
+    //   pinned,
+    //   selected,
+    //   status,
+    //   title,
+    //   url,
+    //   width,
+    //   windowId,
+    // }
+  }
+});
 
 // browser.storage.local.get("urls").then(({urls}) => {
 //   return browser.tabs.query({url: urls});

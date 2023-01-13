@@ -22,18 +22,24 @@ export default class ParserService {
   }
 
   static HTMLCollectionToFields(collection) {
-    return Array.from(collection).map((elmnt) => {
-      const isVisible = (field) =>
-        field.type !== `hidden` ||
-        field.style.display !== `none` ||
-        field.style.visibility !== `hidden`;
+    return Array.from(collection).map((element) => {
+      const isVisible = (elmnt) => {
+        const style = window.getComputedStyle(elmnt);
+        return (
+          elmnt.type !== `hidden` &&
+          style.getPropertyValue(`display`) !== `none` &&
+          style.getPropertyValue(`visibility`) !== `hidden`
+        );
+      };
+
       return {
-        id: this.getIdentifier(elmnt),
-        type: elmnt.type,
-        name: this.getName(elmnt),
-        value: elmnt.value,
-        isVisible: isVisible(window.getComputedStyle(elmnt)),
-      }
+        id: this.getIdentifier(element),
+        type: element.type,
+        name: this.getName(element),
+        placeholder: element.getAttribute(`placeholder`),
+        value: element.value,
+        isVisible: isVisible(element),
+      };
     });
   }
 }

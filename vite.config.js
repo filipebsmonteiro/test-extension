@@ -23,8 +23,6 @@ function generateManifest() {
   };
 }
 
-console.log(`generateManifest() :>> `, generateManifest());
-
 export default ({ mode }) => {
   // https://vitejs.dev/config/
   return defineConfig({

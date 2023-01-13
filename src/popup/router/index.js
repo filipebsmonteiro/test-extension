@@ -11,7 +11,7 @@ const router = createRouter({
         {
           path: `/`,
           name: `home`,
-          component: () => import(`@/popup/views/PopupView.vue`),
+          component: () => import(`@/popup/views/FillFormView.vue`),
           meta: { title: `Form` },
         },
         {
