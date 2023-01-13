@@ -115,12 +115,13 @@ const languages = [
         v-model="domain"
         type="text"
         placeholder="type domain"
-        class="input input-sm max-w-xs"
+        class="input input-bordered input-sm max-w-xs"
       />
     </label>
   </div>
 </template>
 
-<style lang="scss">
-// Styles
+<style lang="sass">
+.toggle
+  border-radius: 5rem
 </style>
