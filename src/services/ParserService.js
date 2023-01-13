@@ -21,6 +21,18 @@ export default class ParserService {
     return htmlElement.id;
   }
 
+  static getOptions(htmlElement) {
+    if (htmlElement.options)
+      return [...htmlElement.options].map((o) => ({
+        id: this.getIdentifier(o),
+        disabled: o.disabled,
+        value: o.valeu ?? o.innerHTML,
+        text: o.innerHTML,
+      }));
+
+    return null;
+  }
+
   static HTMLCollectionToFields(collection) {
     return Array.from(collection).map((element) => {
       const isVisible = (elmnt) => {
@@ -34,11 +46,12 @@ export default class ParserService {
 
       return {
         id: this.getIdentifier(element),
-        type: element.type,
-        name: this.getName(element),
-        placeholder: element.getAttribute(`placeholder`),
-        value: element.value,
         isVisible: isVisible(element),
+        name: this.getName(element),
+        options: this.getOptions(element),
+        placeholder: element.getAttribute(`placeholder`),
+        type: element.type,
+        value: element.value,
       };
     });
   }

@@ -15,8 +15,9 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   const actions = new PageActionsService(response);
   actions[communication.Request.action](communication.Request.toObject());
+  communication.Response = actions.Response;
 
-  actions.Response.sendResponse();
+  communication.Response.sendResponse();
 
   return true;
 });

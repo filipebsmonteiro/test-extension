@@ -58,4 +58,34 @@ export default class FillFormService {
         },
       });
   }
+
+  fillSelect(select) {
+    const validOption = select.options.find(
+      (option) =>
+        option.value &&
+        !option.disabled &&
+        ![`Select`, `Selecione`].includes(option.text)
+    );
+
+    if (validOption) {
+      PopupService.sendRequestToTab({
+        action: `setProp`,
+        params: {
+          id: validOption.id,
+          prop: `value`,
+          value: true,
+        },
+      });
+
+      PopupService.sendRequestToTab({
+        action: `setProp`,
+        params: {
+          id: select.id,
+          prop: `selectedIndex`,
+          value: select.options.findIndex((o) => o.id === validOption.id),
+          events: [`change`, `input`],
+        },
+      });
+    }
+  }
 }

@@ -6,6 +6,7 @@
 body {
     @apply overflow-scroll;
     width: 400px;
+    max-height: 740px;
 }
 
 button {
