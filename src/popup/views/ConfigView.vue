@@ -3,12 +3,12 @@ import { onMounted, ref, watch } from "vue";
 import PopupService from "@/services/popup/PopupService";
 
 let darkMode = ref(
-  document.querySelector("html").getAttribute("data-theme") === `dark`
+  document.querySelector(`html`).getAttribute(`data-theme`) === `dark`
 );
 watch(darkMode, (newValue) =>
   document
-    .querySelector("html")
-    .setAttribute("data-theme", newValue ? `dark` : `corporate`)
+    .querySelector(`html`)
+    .setAttribute(`data-theme`, newValue ? `dark` : `corporate`)
 );
 
 let lang = ref(`pt_BR`);

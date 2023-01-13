@@ -3,12 +3,12 @@ import browser from "webextension-polyfill";
 // eslint-disable-next-line no-undef
 if (_ENV && _ENV.mode && _ENV.mode === `development`) {
   // console.clear();
-  console.log("background/main.js Loaded!");
+  console.log(`background/main.js Loaded!`);
 }
 
 function handleMessage(request, sender, sendResponse) {
   console.log(`content script sent a message: ${request.content}`);
-  sendResponse({ response: "response from background script" });
+  sendResponse({ response: `response from background script` });
 }
 
 browser.runtime.onMessage.addListener(handleMessage);

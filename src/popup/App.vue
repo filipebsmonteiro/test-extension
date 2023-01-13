@@ -4,7 +4,7 @@ import { RouterLink, RouterView, useRouter, useRoute } from "vue-router";
 const route = useRoute();
 if (!route.name) {
   const router = useRouter();
-  router.push({ name: "home" });
+  router.push({ name: `home` });
 }
 </script>
 

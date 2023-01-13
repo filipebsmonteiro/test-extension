@@ -4,23 +4,23 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      redirect: "/home",
+      path: `/`,
+      redirect: `/home`,
       // component: () => import("@/popup/App.vue"),
       children: [
         {
-          path: "/",
-          name: "home",
-          component: () => import("@/popup/views/PopupView.vue"),
+          path: `/`,
+          name: `home`,
+          component: () => import(`@/popup/views/PopupView.vue`),
           meta: { title: `Form` },
         },
         {
-          path: "/config",
-          name: "config",
+          path: `/config`,
+          name: `config`,
           // route level code-splitting
           // this generates a separate chunk (About.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
-          component: () => import("@/popup/views/ConfigView.vue"),
+          component: () => import(`@/popup/views/ConfigView.vue`),
           meta: { title: `Config` },
         },
       ],
