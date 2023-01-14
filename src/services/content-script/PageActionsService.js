@@ -1,53 +1,46 @@
 import ParserService from "@/services/ParserService";
 
 export default class PageActionsService {
-  Response = null;
 
-  constructor(Response) {
-    this.Response = Response;
-  }
+  constructor() {}
 
-  console({ fun, params }) {
+  static console({ fun, params }) {
     console[fun](params);
+    return true;
   }
 
-  document({ fun, params, parser }) {
+  static document({ fun, params, parser }) {
     const data = params ? document[fun](params) : document[fun];
-    this.Response.data = parser ? ParserService[parser](data) : data;
+    return parser ? ParserService[parser](data) : data;
   }
 
-  navigator({ fun, params, parser }) {
+  static navigator({ fun, params, parser }) {
     const data = params ? navigator[fun](params) : navigator[fun];
-    this.Response.data = parser ? ParserService[parser](data) : data;
+    return parser ? ParserService[parser](data) : data;
   }
 
-  setProp({ params: { events, id, prop, value } }) {
+  static setProp({ params: { events, id, prop, value } }) {
     const element = document.getElementById(id);
     element[prop] = value;
     events &&
       Array.isArray(events) &&
       events.map((evt) => element.dispatchEvent(new Event(evt)));
+    return true;
   }
 
-  executeFunction({ fun, params }) {
-    try {
-      this.Response.data = fun.call(params);
-    } catch (error) {
-      console.error(error);
-      this.Response.status = 500;
-      this.Response.message = error.message;
+  static executeFunction({ fun, params }) {
+    return fun.call(params);
+  }
+
+  static setStorage({ params: { storage, prop, value } }) {
+    if (storage === `local`) {
+      return localStorage.setItem(prop, value);
     }
   }
 
-  setStorage({ params: { storage, prop, value } }) {
+  static getStorage({ params: { storage, prop } }) {
     if (storage === `local`) {
-      localStorage.setItem(prop, value);
-    }
-  }
-
-  getStorage({ params: { storage, prop } }) {
-    if (storage === `local`) {
-      this.Response.data = localStorage.getItem(prop);
+      return localStorage.getItem(prop);
     }
   }
 }
