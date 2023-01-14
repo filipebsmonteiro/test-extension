@@ -1,19 +1,26 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import PopupService from "@/services/popup/PopupService";
-// import { cpf, cnpj } from "@/faker/generators";
 import FillFormService from "@/services/popup/FillFormService";
 
-let fields = ref({ input: [], select: [] });
+let fields = ref({ hubDropdown: [], input: [], select: [] });
 const loadFields = async () => {
-  fields.value.input = await PopupService.getElementsByTagName(`input`).then(
-    ({ data }) =>
-      data.filter((f) => f.type !== `checkbox` && f.isVisible && f.id && f.name)
+  fields.value.input = await PopupService.getElementsByTagName(
+    `input`,
+    `HTMLCollectionOfInput`
+  ).then(({ data }) =>
+    data.filter((f) => f.type !== `checkbox` && f.isVisible && f.id && f.name)
   );
 
-  fields.value.select = await PopupService.getElementsByTagName(`select`).then(
-    ({ data }) => data.filter((f) => f.isVisible && f.id)
-  );
+  fields.value.select = await PopupService.getElementsByTagName(
+    `select`,
+    `HTMLCollectionOfSelect`
+  ).then(({ data }) => data.filter((f) => f.isVisible && f.id));
+
+  fields.value.hubDropdown = await PopupService.querySelector(
+    `.hub-dropdown > .mobile-hidden > .hub-dropdown-option-container > ul`,
+    `HTMLCollectionOfHubDropdown`
+  ).then(({ data }) => data.filter((f) => f.isVisible && f.id));
 };
 onMounted(() => loadFields());
 
@@ -24,9 +31,9 @@ const fillFields = async () => {
     FillForm.fillField(field);
   });
 
-  fields.value.select.map((select) => {
-    FillForm.fillSelect(select);
-  });
+  fields.value.select.map((select) => FillForm.fillSelect(select));
+
+  fields.value.hubDropdown.map((select) => FillForm.fillHubDropdown(select));
 
   loadFields();
 };

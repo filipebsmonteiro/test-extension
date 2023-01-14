@@ -36,6 +36,9 @@ export default ({ mode }) => {
         // '@services': `${path.resolve(__dirname, 'src/services')}/`,
       },
     },
+    build: {
+      minify: mode === `production`,
+    },
     plugins: [
       vue(),
       webExtension({

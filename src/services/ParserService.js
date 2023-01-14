@@ -1,58 +1,32 @@
-import { v4 as uuid } from "uuid";
+import HTMLCollection from "@/parsers/HTMLCollection";
+import HTMLCollectionOfHubDropdown from "@/parsers/HTMLCollectionOfHubDropdown";
+import HTMLCollectionOfInput from "@/parsers/HTMLCollectionOfInput";
+import HTMLCollectionOfSelect from "@/parsers/HTMLCollectionOfSelect";
 
 export default class ParserService {
   constructor() {}
 
-  static getName(htmlElement) {
-    let name = null;
-    if (htmlElement.name) return htmlElement.name;
-
-    let element = htmlElement;
-    for (let i = 0; i < 10; i++) {
-      element = element?.previousSibling;
-      if (element && element.tagName === `LABEL`) return element.innerHTML;
-    }
-
-    return name;
+  static HTMLCollection(collection) {
+    return Array.from(collection).map((element) =>
+      HTMLCollection.parseElement(element)
+    );
   }
 
-  static getIdentifier(htmlElement) {
-    if (!htmlElement.id) htmlElement.id = uuid();
-    return htmlElement.id;
+  static HTMLCollectionOfHubDropdown(collection) {
+    return Array.from(collection).map((element) =>
+      HTMLCollectionOfHubDropdown.parseElement(element)
+    );
   }
 
-  static getOptions(htmlElement) {
-    if (htmlElement.options)
-      return [...htmlElement.options].map((o) => ({
-        id: this.getIdentifier(o),
-        disabled: o.disabled,
-        value: o.valeu ?? o.innerHTML,
-        text: o.innerHTML,
-      }));
-
-    return null;
+  static HTMLCollectionOfInput(collection) {
+    return Array.from(collection).map((element) =>
+      HTMLCollectionOfInput.parseElement(element)
+    );
   }
 
-  static HTMLCollectionToFields(collection) {
-    return Array.from(collection).map((element) => {
-      const isVisible = (elmnt) => {
-        const style = window.getComputedStyle(elmnt);
-        return (
-          elmnt.type !== `hidden` &&
-          style.getPropertyValue(`display`) !== `none` &&
-          style.getPropertyValue(`visibility`) !== `hidden`
-        );
-      };
-
-      return {
-        id: this.getIdentifier(element),
-        isVisible: isVisible(element),
-        name: this.getName(element),
-        options: this.getOptions(element),
-        placeholder: element.getAttribute(`placeholder`),
-        type: element.type,
-        value: element.value,
-      };
-    });
+  static HTMLCollectionOfSelect(collection) {
+    return Array.from(collection).map((element) =>
+      HTMLCollectionOfSelect.parseElement(element)
+    );
   }
 }

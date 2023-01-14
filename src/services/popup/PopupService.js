@@ -13,12 +13,21 @@ export default class PopupService {
     return communication.Response;
   }
 
-  static getElementsByTagName(selector) {
+  static getElementsByTagName(selector, parser) {
     return this.sendRequestToTab({
       action: `document`,
       fun: `getElementsByTagName`,
       params: selector,
-      parser: `HTMLCollectionToFields`,
+      parser: parser || `HTMLCollection`,
+    });
+  }
+
+  static querySelector(selector, parser) {
+    return this.sendRequestToTab({
+      action: `document`,
+      fun: `querySelector`,
+      params: selector,
+      parser: parser || `HTMLCollection`,
     });
   }
 
