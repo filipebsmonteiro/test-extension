@@ -1,4 +1,5 @@
 import ParserService from "@/services/ParserService";
+import browser from "webextension-polyfill";
 
 export default class PageActionsService {
 
@@ -28,8 +29,14 @@ export default class PageActionsService {
     return true;
   }
 
-  static executeFunction({ fun, params }) {
-    return fun.call(params);
+  static executeScript({ script, destination }) {
+    browser.tabs.executeScript(destination.id, { code: script }, (results) => {
+      if (browser.runtime.lastError) {
+        // Handle errors from chrome.tabs.executeScript
+      }
+
+      return results;
+    });
   }
 
   static setStorage({ params: { storage, prop, value } }) {
@@ -42,5 +49,15 @@ export default class PageActionsService {
     if (storage === `local`) {
       return localStorage.getItem(prop);
     }
+  }
+
+  static clearCache() {
+    caches
+      .keys()
+      .then((keyList) => Promise.all(keyList.map((key) => caches.delete(key))));
+  }
+
+  static reloadActivePage() {
+    window.location.reload();
   }
 }

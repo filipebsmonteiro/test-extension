@@ -5,28 +5,15 @@ export default class BrowserService {
 
   constructor() {}
 
-  async loadTabs(query = { active: true, currentWindow: true }) {
+  async loadTabs(query) {
     this.tabs = await browser.tabs.query(query);
   }
 
-  async sendTabRequest({ action, fun, params, parser, to }) {
-    await this.loadTabs();
+  async sendRequestToActiveTab(Request) {
+    await this.loadTabs({ active: true, currentWindow: true });
 
-    if (this.tabs.length > 1) {
-      return await Promise.all(
-        this.tabs.map((tab) =>
-          browser.tabs.sendMessage(tab.id, { action, fun, params, parser, to })
-        )
-      );
-    }
-
-    return await browser.tabs.sendMessage(this.tabs[0].id, {
-      action,
-      fun,
-      params,
-      parser,
-      to,
-    });
+    Request.setDestination(this.tabs[0]);
+    return await browser.tabs.sendMessage(this.tabs[0].id, Request.toObject());
   }
 
   async sendRunTimeRequest(Request) {

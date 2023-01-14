@@ -3,13 +3,15 @@ export default class Request {
   fun;
   params;
   parser;
+  script;
   destination;
 
-  constructor({ action, fun, params, parser, destination } = {}) {
+  constructor({ action, fun, params, parser, script, destination } = {}) {
     this.action = action;
-    this.fun = fun ? fun : () => null;
+    this.fun = fun ?? null;
     this.params = params ?? null;
     this.parser = parser ?? null;
+    this.script = script ?? null;
     this.destination = destination;
   }
 
@@ -34,6 +36,7 @@ export default class Request {
       fun: this.fun,
       params: this.params,
       parser: this.parser,
+      script: this.script,
       destination: this.destination,
     };
   }

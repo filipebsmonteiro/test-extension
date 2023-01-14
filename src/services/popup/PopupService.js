@@ -9,7 +9,7 @@ export default class PopupService {
       parser,
     });
 
-    await communication.sendRequestToPage();
+    await communication.sendRequestToTab();
     return communication.Response;
   }
 
@@ -43,5 +43,11 @@ export default class PopupService {
       action: `setStorage`,
       params: { storage: `local`, prop: key, value },
     });
+  }
+
+  static reloadPage(hard) {
+    if (hard) this.sendRequestToTab({ action: `clearCache` });
+
+    return this.sendRequestToTab({ action: `reloadActivePage` });
   }
 }

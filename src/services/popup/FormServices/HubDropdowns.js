@@ -7,7 +7,7 @@ export default class HubDropdowns {
     return await PopupService.querySelector(
       `.hub-dropdown > .mobile-hidden > .hub-dropdown-option-container > ul`,
       `HTMLCollectionOfHubDropdown`
-    ).then(({ data }) => data.filter((f) => f.isVisible && f.id));
+    ).then(({ data = [] }) => data.filter((f) => f.isVisible && f.id));
   }
 
   static async fill(dropdown) {

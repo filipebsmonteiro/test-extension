@@ -7,7 +7,7 @@ export default class Selects {
     return await PopupService.getElementsByTagName(
       `select`,
       `HTMLCollectionOfSelect`
-    ).then(({ data }) => data.filter((f) => f.isVisible && f.id));
+    ).then(({ data = [] }) => data.filter((f) => f.isVisible && f.id));
   }
 
   static async fill(select) {

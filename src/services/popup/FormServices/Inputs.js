@@ -18,7 +18,7 @@ export default class Inputs {
     return await PopupService.getElementsByTagName(
       `input`,
       `HTMLCollectionOfInput`
-    ).then(({ data }) =>
+    ).then(({ data = [] }) =>
       data.filter((f) => f.type !== `checkbox` && f.isVisible && f.id && f.name)
     );
   }
@@ -44,7 +44,6 @@ export default class Inputs {
 
   fill(field) {
     const value = this.generateValue(field);
-    console.log(`${field.name} :>> `, value);
 
     if (value)
       PopupService.sendRequestToTab({

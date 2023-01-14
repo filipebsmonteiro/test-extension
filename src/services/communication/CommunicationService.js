@@ -13,10 +13,9 @@ export default class CommunicationService extends BrowserService {
     if (sendResponse) this.Response = new Response(sendResponse);
   }
 
-  async sendRequestToPage() {
-    this.Request.setDestination(`content`).validate();
+  async sendRequestToTab() {
     await super
-      .sendTabRequest(this.Request.toObject())
+      .sendRequestToActiveTab(this.Request)
       .then((result) => (this.Response = result));
     return this;
   }

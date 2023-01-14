@@ -7,49 +7,20 @@ if (_ENV && _ENV.mode && _ENV.mode === `development`) {
 }
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(`content script sent a message: ${request.content}`);
+  console.log(`content script sent a message: ${request}`);
   sendResponse({ response: `response from background script` });
+});
+
+browser.runtime.onInstalled.addListener((details) => {
+  console.log(`Extension installed:`, details);
+});
+
+browser.runtime.onConnect.addListener((port) => {
+  console.log(`browser.runtime.onConnect`, port);
 });
 
 browser.tabs.onUpdated.addListener((tabId, { status }, tab) => {
   if (status === `complete`) {
-    // tab: {
-    //   active,
-    //   audible,
-    //   autoDiscardable,
-    //   discarded,
-    //   favIconUrl,
-    //   groupId,
-    //   height,
-    //   highlighted,
-    //   id,
-    //   incognito,
-    //   index,
-    //   mutedInfo: { muted },
-    //   pinned,
-    //   selected,
-    //   status,
-    //   title,
-    //   url,
-    //   width,
-    //   windowId,
-    // }
+    console.log(`browser.tabs.onUpdated`, tab);
   }
 });
-
-// browser.storage.local.get("urls").then(({urls}) => {
-//   return browser.tabs.query({url: urls});
-// }).then(tabs => {
-//   return Promise.all(
-//     Array.from(tabs, tab => browser.tabs.reload(tab.id))
-//   );
-// }).then(() => {
-//   return browser.notifications.create({
-//     type: "basic",
-//     iconUrl: "icon.png",
-//     title: "Tabs reloaded",
-//     message: "Your tabs have been reloaded",
-//   });
-// }).catch(error => {
-//   console.error(`An error occurred while reloading tabs: ${error.message}`);
-// });

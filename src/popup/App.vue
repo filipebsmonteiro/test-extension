@@ -1,11 +1,16 @@
 <script setup>
 import { RouterLink, RouterView, useRouter, useRoute } from "vue-router";
+import PopupService from "@/services/popup/PopupService";
 
 const route = useRoute();
 if (!route.name) {
   const router = useRouter();
   router.push({ name: `home` });
 }
+
+const refresh = () => {
+  PopupService.reloadPage(true);
+};
 </script>
 
 <template>
@@ -17,7 +22,9 @@ if (!route.name) {
       <font-awesome-icon :icon="['fas', 'gear']" />
     </RouterLink>
     <h3>{{ $route.meta.title || `` }}</h3>
-    <span style="color: transparent">A</span>
+    <span class="cursor-pointer" @click="refresh">
+      <font-awesome-icon :icon="['fas', 'recycle']" />
+    </span>
   </div>
 
   <div class="p-2">

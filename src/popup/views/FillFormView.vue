@@ -23,7 +23,7 @@ const fillFields = async () => {
 
 <template>
   <div class="flex justify-between">
-    <button class="btn-xs rounded" @click="loadFields()">
+    <button class="btn-xs rounded" @click="loadFields">
       Recarregar Campos
     </button>
     <button class="btn-xs rounded" @click="fillFields">Preencher Campos</button>
@@ -43,7 +43,10 @@ const fillFields = async () => {
       </thead>
       <tbody>
         <tr v-for="field in rows" :key="field.id">
-          <td>{{ field.type }}</td>
+          <td>
+            {{ field.type }}
+            
+          </td>
           <td>{{ field.name }}</td>
           <td>{{ field.value }}</td>
         </tr>
