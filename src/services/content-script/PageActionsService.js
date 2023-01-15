@@ -20,12 +20,35 @@ export default class PageActionsService {
     return parser ? ParserService[parser](data) : data;
   }
 
+  static scrollToElement({ params: { id, ...params } }) {
+    const element = document.getElementById(id);
+    element.scrollIntoView(params);
+    element.classList.add(`wiggle`);
+    setTimeout(() => element.classList.remove(`wiggle`), 2000);
+    return true;
+  }
+
   static setProp({ params: { events, id, prop, value } }) {
     const element = document.getElementById(id);
     element[prop] = value;
     events &&
       Array.isArray(events) &&
       events.map((evt) => element.dispatchEvent(new Event(evt)));
+    return true;
+  }
+
+  static setPropForced({ params: { events, id, prop, value } }) {
+    const element = document.getElementById(id);
+
+    let accumulator = ``;
+    for (const index in value) {
+      accumulator = `${accumulator}${value[index]}`;
+      element[prop] = accumulator;
+      events &&
+        Array.isArray(events) &&
+        events.map((evt) => element.dispatchEvent(new Event(evt)));
+    }
+
     return true;
   }
 

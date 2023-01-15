@@ -39,9 +39,11 @@ export default class FormService {
     }));
   }
 
-  async fillFields({ inputs, selects, hubDropdowns }) {
-    inputs.map((input) => this.Inputs.fill(input));
-    selects.map((select) => Selects.fill(select));
-    hubDropdowns.map((hubDropdown) => HubDropdowns.fill(hubDropdown));
+  async fillFields({ inputs, selects, hubDropdowns, force }) {
+    return {
+      inputs: inputs.map((input) => this.Inputs.fill({ ...input, force })),
+      selects: selects.map((select) => Selects.fill(select)),
+      hubDropdowns: hubDropdowns.map((dropdown) => HubDropdowns.fill(dropdown)),
+    }
   }
 }

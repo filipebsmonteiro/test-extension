@@ -12,3 +12,7 @@ body {
 button {
     @apply btn;
 }
+
+.toggle, .badge {
+    border-radius: 5rem
+}

@@ -23,7 +23,8 @@ export default class Inputs {
     );
   }
 
-  generateValue(field) {
+  generateValue(Field) {
+    const field = Object.assign({}, Field);
     if (field.name) field.name = field.name.toLowerCase();
 
     if (Validations.isEmail(field))
@@ -31,7 +32,7 @@ export default class Inputs {
 
     if (Validations.isName(field)) return faker.name.fullName();
 
-    if (Validations.isPhone(field)) return faker.phone.number();
+    if (Validations.isPhone(field)) return faker.phone.number().replace(/\D+/g, ``);
 
     const doc = Validations.Documents.isBrazillian(field);
     if (doc) return fakerBr[doc]().replace(/\D+/g, ``);
@@ -45,9 +46,9 @@ export default class Inputs {
   fill(field) {
     const value = this.generateValue(field);
 
-    if (value)
+    if (value) {
       PopupService.sendRequestToTab({
-        action: `setProp`,
+        action: field.force ? `setPropForced` : `setProp`,
         params: {
           id: field.id,
           prop: `value`,
@@ -55,5 +56,13 @@ export default class Inputs {
           events: [`change`, `input`],
         },
       });
+
+      return {
+        ...field,
+        newValue: value,
+      };
+    }
+
+    return null;
   }
 }

@@ -10,7 +10,7 @@ export default class Selects {
     ).then(({ data = [] }) => data.filter((f) => f.isVisible && f.id));
   }
 
-  static async fill(select) {
+  static fill(select) {
     const validOption = select.options.find(
       (option) =>
         option.value &&
@@ -37,6 +37,13 @@ export default class Selects {
           events: [`change`, `input`],
         },
       });
+
+      return {
+        ...select,
+        newValue: validOption.value,
+      };
     }
+
+    return null;
   }
 }

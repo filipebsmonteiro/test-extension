@@ -10,7 +10,7 @@ export default class HubDropdowns {
     ).then(({ data = [] }) => data.filter((f) => f.isVisible && f.id));
   }
 
-  static async fill(dropdown) {
+  static fill(dropdown) {
     const validOption = dropdown.options.find(
       (option) =>
         option.value &&
@@ -28,6 +28,13 @@ export default class HubDropdowns {
           events: [`click`],
         },
       });
+
+      return {
+        ...dropdown,
+        newValue: validOption.value,
+      };
     }
+
+    return null;
   }
 }

@@ -120,8 +120,3 @@ const languages = [
     </label>
   </div>
 </template>
-
-<style lang="sass">
-.toggle
-  border-radius: 5rem
-</style>

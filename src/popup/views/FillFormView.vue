@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import FormService from "@/services/popup/FormServices/FormService";
+import PopupService from "@/services/popup/PopupService";
 
 let fields = ref([]),
   rows = ref([]);
@@ -16,9 +17,23 @@ onMounted(() => loadFields());
 
 const fillFields = async () => {
   const Form = await FormService.build();
-  Form.fillFields(fields.value);
+  await Form.fillFields(fields.value);
   loadFields();
+
+  // await Form.fillFields({ ...fields.value, force: true });
+  // loadFields();
 };
+
+const scrollTo = (elementId) => {
+  PopupService.sendRequestToTab({
+    action: `scrollToElement`,
+    params: {
+      id: elementId,
+      behavior: `smooth`,
+      block: `center`,
+    },
+  });
+}
 </script>
 
 <template>
@@ -44,8 +59,13 @@ const fillFields = async () => {
       <tbody>
         <tr v-for="field in rows" :key="field.id">
           <td>
+            <span
+              class="badge cursor-pointer badge-sm rounded"
+              @click="scrollTo(field.id)"
+            >
+              <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+            </span>
             {{ field.type }}
-            
           </td>
           <td>{{ field.name }}</td>
           <td>{{ field.value }}</td>
