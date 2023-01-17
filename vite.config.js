@@ -1,10 +1,8 @@
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, normalizePath } from "vite";
 import vue from "@vitejs/plugin-vue";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
-import { viteStaticCopy } from 'vite-plugin-static-copy'
-
-
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 function loadWebExtConfig() {
   try {
@@ -51,11 +49,17 @@ export default ({ mode }) => {
         manifest: generateManifest,
       }),
       viteStaticCopy({
-        targets: [{
-          src: 'dist/main.css',
-          dest: 'src/content-script'
-        }]
-      })
+        targets: [
+          {
+            // eslint-disable-next-line no-undef
+            src: normalizePath(path.resolve(__dirname, `./dist/main.css`)),
+            dest: normalizePath(
+              // eslint-disable-next-line no-undef
+              path.resolve(__dirname, `./dist/src/content-script`)
+            ),
+          },
+        ],
+      }),
     ],
   });
 };

@@ -28,12 +28,29 @@ export default class PageActionsService {
     return true;
   }
 
-  static setProp({ params: { events, id, prop, value } }) {
+  static async setProp({ params: { events, id, prop, value } }) {
     const element = document.getElementById(id);
-    element[prop] = value;
-    events &&
-      Array.isArray(events) &&
-      events.map((evt) => element.dispatchEvent(new Event(evt)));
+    element.removeAttribute(prop);
+    element.setAttribute(prop, value);
+
+    if (events && Array.isArray(events)) {
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      for (const idx in events) {
+        element.dispatchEvent(new Event(events[idx]));
+
+        await sleep(250)
+          .then(() => {
+            const valueKeep = element.getAttribute(prop) === value;
+            if (!valueKeep) return events[idx];
+          })
+          .then((event) => {
+            // Events with Error
+            if (event) console.log(`event :>> `, event, value);
+          });
+      }
+    }
+
     return true;
   }
 

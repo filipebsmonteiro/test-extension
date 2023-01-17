@@ -54,7 +54,6 @@ export default class Inputs {
           id: field.id,
           prop: `value`,
           value,
-          // events: [`input`],
           events: [`input`, `change`],
         },
       });
