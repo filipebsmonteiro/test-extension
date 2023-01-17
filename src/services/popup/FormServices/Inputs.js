@@ -32,7 +32,8 @@ export default class Inputs {
 
     if (Validations.isName(field)) return faker.name.fullName();
 
-    if (Validations.isPhone(field)) return faker.phone.number().replace(/\D+/g, ``);
+    if (Validations.isPhone(field))
+      return faker.phone.number().replace(/\D+/g, ``);
 
     const doc = Validations.Documents.isBrazillian(field);
     if (doc) return fakerBr[doc]().replace(/\D+/g, ``);
@@ -53,7 +54,8 @@ export default class Inputs {
           id: field.id,
           prop: `value`,
           value,
-          events: [`change`, `input`],
+          // events: [`input`],
+          events: [`input`, `change`],
         },
       });
 

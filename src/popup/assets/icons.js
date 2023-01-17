@@ -4,7 +4,8 @@ import {
   faGear,
   faGears,
   faRecycle,
+  faLocationDot,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faGear, faGears, faRecycle, faMagnifyingGlass);
+library.add(faGear, faGears, faRecycle, faLocationDot, faMagnifyingGlass);

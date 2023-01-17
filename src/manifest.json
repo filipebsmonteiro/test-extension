@@ -25,9 +25,12 @@
     "css": ["src/content-script/main.css"]
   }],
   "permissions": [
+    "*://*/*",
     "tabs",
     "scripting",
+    "storage",
     "{{chrome}}.activeTab",
+    "{{chrome}}.contextMenus",
     "{{firefox}}.<all_urls>"
   ]
 }

@@ -51,7 +51,7 @@ const scrollTo = (elementId) => {
     <table class="table w-full">
       <thead>
         <tr>
-          <th>Tipo</th>
+          <th>Campo</th>
           <th>Nome</th>
           <th>Valor</th>
         </tr>
@@ -60,12 +60,17 @@ const scrollTo = (elementId) => {
         <tr v-for="field in rows" :key="field.id">
           <td>
             <span
-              class="badge cursor-pointer badge-sm rounded"
+              class="badge badge-sm badge-outline"
               @click="scrollTo(field.id)"
             >
-              <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+              <span
+                class="badge cursor-pointer badge-sm"
+                @click="scrollTo(field.id)"
+              >
+                <font-awesome-icon :icon="['fas', 'location-dot']" />
+              </span>
+              {{ field.type }}
             </span>
-            {{ field.type }}
           </td>
           <td>{{ field.name }}</td>
           <td>{{ field.value }}</td>
@@ -74,3 +79,11 @@ const scrollTo = (elementId) => {
     </table>
   </div>
 </template>
+
+<style lang="sass">
+.badge
+    padding-left: 0rem
+    .badge
+      padding: .2rem
+      margin-right: .5rem
+</style>

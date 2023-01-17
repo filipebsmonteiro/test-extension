@@ -34,7 +34,7 @@ export default class Selects {
           id: select.id,
           prop: `selectedIndex`,
           value: select.options.findIndex((o) => o.id === validOption.id),
-          events: [`change`, `input`],
+          events: [`input`, `change`],
         },
       });
 

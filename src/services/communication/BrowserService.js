@@ -7,13 +7,17 @@ export default class BrowserService {
 
   async loadTabs(query) {
     this.tabs = await browser.tabs.query(query);
+    return this.tabs;
   }
 
   async sendRequestToActiveTab(Request) {
-    await this.loadTabs({ active: true, currentWindow: true });
+    const [activeTab] = await this.loadTabs({
+      active: true,
+      currentWindow: true,
+    });
 
-    Request.setDestination(this.tabs[0]);
-    return await browser.tabs.sendMessage(this.tabs[0].id, Request.toObject());
+    Request.setDestination(activeTab);
+    return await browser.tabs.sendMessage(activeTab.id, Request.toObject());
   }
 
   async sendRunTimeRequest(Request) {
