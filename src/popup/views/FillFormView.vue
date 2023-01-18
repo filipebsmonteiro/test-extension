@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import FormService from "@/services/popup/FormServices/FormService";
 import PopupService from "@/services/popup/PopupService";
+import CommunicationService from "@/services/communication/CommunicationService";
 
 let fields = ref([]),
   rows = ref([]);
@@ -13,15 +14,16 @@ const loadFields = async () => {
     []
   );
 };
-onMounted(() => loadFields());
+onMounted(() => {
+  loadFields();
+  const communication = new CommunicationService({});
+  communication.sendRunTimeRequest(`Message From Popup`);
+});
 
 const fillFields = async () => {
   const Form = await FormService.build();
   await Form.fillFields(fields.value);
   loadFields();
-
-  // await Form.fillFields({ ...fields.value, force: true });
-  // loadFields();
 };
 
 const scrollTo = (elementId) => {
@@ -33,7 +35,7 @@ const scrollTo = (elementId) => {
       block: `center`,
     },
   });
-}
+};
 </script>
 
 <template>

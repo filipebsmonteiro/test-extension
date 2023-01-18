@@ -22,7 +22,7 @@
     "matches": ["*://*/*"],
     "run_at": "document_end",
     "js": ["src/content-script/main.js"],
-    "css": ["src/content-script/main.css"]
+    "css": ["src/content-script/assets/main.scss"]
   }],
   "permissions": [
     "*://*/*",

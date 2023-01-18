@@ -29,11 +29,13 @@ export default ({ mode }) => {
   return defineConfig({
     define: {
       _ENV: { mode },
+      "process.env": { NODE_ENV: mode },
     },
     resolve: {
       alias: {
         // eslint-disable-next-line no-undef
         "@/": `${path.resolve(__dirname, `src`)}/`,
+        "vue": mode === `development` ? `vue/dist/vue.runtime.esm-browser.js` : `vue/dist/vue.runtime.esm-browser.prod.js`,
         // '@services': `${path.resolve(__dirname, 'src/services')}/`,
       },
     },
@@ -55,7 +57,7 @@ export default ({ mode }) => {
             src: normalizePath(path.resolve(__dirname, `./dist/main.css`)),
             dest: normalizePath(
               // eslint-disable-next-line no-undef
-              path.resolve(__dirname, `./dist/src/content-script`)
+              path.resolve(__dirname, `./dist/src/content-script/assets`)
             ),
           },
         ],
