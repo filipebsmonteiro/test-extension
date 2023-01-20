@@ -5,8 +5,12 @@ export const useFieldsStore = defineStore(`fields`, () => {
   let fields = ref([]);
 
   function addField(field) {
-    if (fields.value.every((f) => field.element !== f.element))
+    if (fields.value.every((f) => field.element !== f.element)) {
       fields.value.push(field);
+      return;
+    }
+
+    updateField(field.id, field);
   }
 
   function cleanStorage() {
