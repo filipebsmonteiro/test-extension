@@ -9,10 +9,10 @@
     "128": "icon/128.png"
   },
   "{{chrome}}.action": {
-    "default_popup": "src/popup/index.html"
+    "default_popup": "src/popup/resources/index.html"
   },
   "{{firefox}}.browser_action": {
-    "default_popup": "src/popup/index.html"
+    "default_popup": "src/popup/resources/index.html"
   },
   "background": {
     "{{chrome}}.service_worker": "src/background/main.js",
@@ -21,8 +21,8 @@
   "content_scripts": [{
     "matches": ["*://*/*"],
     "run_at": "document_end",
-    "js": ["src/content-script/main.js"],
-    "css": ["src/content-script/assets/main.scss"]
+    "js": ["src/content-script/resources/main.js"],
+    "css": ["src/content-script/resources/assets/main.scss"]
   }],
   "permissions": [
     "*://*/*",

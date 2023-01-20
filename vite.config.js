@@ -1,4 +1,4 @@
-import path from "path";
+import { resolve } from "path";
 import { defineConfig, normalizePath } from "vite";
 import vue from "@vitejs/plugin-vue";
 import webExtension, { readJsonFile } from "vite-plugin-web-extension";
@@ -25,6 +25,9 @@ function generateManifest() {
 }
 
 export default ({ mode }) => {
+  // eslint-disable-next-line no-undef
+  const Dir = __dirname;
+
   // https://vitejs.dev/config/
   return defineConfig({
     define: {
@@ -33,10 +36,14 @@ export default ({ mode }) => {
     },
     resolve: {
       alias: {
-        // eslint-disable-next-line no-undef
-        "@/": `${path.resolve(__dirname, `src`)}/`,
-        "vue": mode === `development` ? `vue/dist/vue.runtime.esm-browser.js` : `vue/dist/vue.runtime.esm-browser.prod.js`,
-        // '@services': `${path.resolve(__dirname, 'src/services')}/`,
+        vue:
+          mode === `development`
+            ? `vue/dist/vue.runtime.esm-browser.js`
+            : `vue/dist/vue.runtime.esm-browser.prod.js`,
+        "@/": `${resolve(Dir, `src`)}/`,
+        "@app/": `${resolve(Dir, `src/application`)}/`,
+        "@content/": `${resolve(Dir, `src/content-script`)}/`,
+        "@extension/": `${resolve(Dir, `src/popup`)}/`,
       },
     },
     build: {
@@ -53,11 +60,9 @@ export default ({ mode }) => {
       viteStaticCopy({
         targets: [
           {
-            // eslint-disable-next-line no-undef
-            src: normalizePath(path.resolve(__dirname, `./dist/main.css`)),
+            src: normalizePath(resolve(Dir, `dist/main.css`)),
             dest: normalizePath(
-              // eslint-disable-next-line no-undef
-              path.resolve(__dirname, `./dist/src/content-script/assets`)
+              resolve(Dir, `dist/src/content-script/resources/assets`)
             ),
           },
         ],

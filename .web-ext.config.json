@@ -1,4 +1,4 @@
 {
   "options-url-to-consult": "https://www.npmjs.com/package/web-ext-plugin",
-  "startUrl": "http://localhost:4502/content/ram/BR/pt/home/ram-card.html?wcmmode=disabled"
+  "startUrl": "https://www.ram.com.br/ram-card.html"
 }

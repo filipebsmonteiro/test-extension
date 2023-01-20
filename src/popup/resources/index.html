@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="corporate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preencher Campos</title>
+  </head>
+
+  <body></body>
+
+  <script type="module">
+    import { createApp } from "vue";
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+    import "@extension/resources/assets/icons.js";
+
+    import App from "@extension/resources/App.vue";
+    import router from "@extension/resources/router";
+
+    import "@extension/resources/assets/main.scss";
+
+    const app = createApp(App);
+
+    app.use(router)
+      .component('font-awesome-icon', FontAwesomeIcon)
+      .mount("body");
+  </script>
+</html>
