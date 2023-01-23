@@ -17,11 +17,14 @@ const router = createRouter({
         {
           path: `/config`,
           name: `config`,
-          // route level code-splitting
-          // this generates a separate chunk (About.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
           component: () => import(`@extension/resources/views/ConfigView.vue`),
           meta: { title: `Config` },
+        },
+        {
+          path: `/storage`,
+          name: `storage`,
+          component: () => import(`@extension/resources/views/StorageView.vue`),
+          meta: { title: `Storage` },
         },
       ],
     },

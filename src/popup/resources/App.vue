@@ -29,8 +29,17 @@ const refresh = () => {
       <font-awesome-icon :icon="['fas', 'gear']" />
     </RouterLink>
     <h3>{{ $route.meta.title || `` }}</h3>
-    <span class="cursor-pointer" @click="refresh">
-      <font-awesome-icon :icon="['fas', 'recycle']" />
+    <span>
+      <font-awesome-icon
+        :icon="['fas', 'recycle']"
+        class="cursor-pointer"
+        @click="refresh"
+      />
+      <font-awesome-icon
+        :icon="['fas', 'database']"
+        class="cursor-pointer ml-2"
+        @click="$router.push({ name: `storage` })"
+      />
     </span>
   </div>
 

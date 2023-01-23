@@ -15,7 +15,23 @@ export default class BrowserController {
   }
 
   getStorage({ key }) {
-    return ResponseFactory.createWithData(localStorage.getItem(key));
+    const response =
+      key === `*`
+        ? Object.keys(localStorage).map((key) => ({
+            key,
+            value: localStorage.getItem(key),
+          }))
+        : localStorage.getItem(key);
+
+    return ResponseFactory.createWithData(response);
+  }
+
+  removeStorage({ key }) {
+    key === `*`
+      ? Object.keys(localStorage).map((key) => localStorage.removeItem(key))
+      : localStorage.removeItem(key);
+
+    return ResponseFactory.create();
   }
 
   clearCache() {
