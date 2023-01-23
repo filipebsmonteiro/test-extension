@@ -22,12 +22,17 @@ const refresh = () => {
 
 <template>
   <div class="flex justify-between m-2">
-    <RouterLink
-      :to="$route.name === `config` ? `/` : `/config`"
-      class="hover-point"
-    >
-      <font-awesome-icon :icon="['fas', 'gear']" />
-    </RouterLink>
+    <span>
+      <RouterLink
+        :to="$route.name === `config` ? `/` : `/config`"
+        class="hover-point"
+      >
+        <font-awesome-icon :icon="['fas', 'gear']" />
+      </RouterLink>
+      <RouterLink to="/" class="hover-point ml-2">
+        <font-awesome-icon :icon="['fas', 'house']" />
+      </RouterLink>
+    </span>
     <h3>{{ $route.meta.title || `` }}</h3>
     <span>
       <font-awesome-icon
