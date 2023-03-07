@@ -14,7 +14,7 @@ export const useFieldsStore = defineStore(`fields`, () => {
   }
 
   function cleanStorage() {
-    fields.value = ref([]);
+    fields = ref([]);
   }
 
   function getField(id) {
