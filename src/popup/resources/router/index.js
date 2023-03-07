@@ -11,19 +11,19 @@ const router = createRouter({
         {
           path: `/`,
           name: `home`,
-          component: () => import(`@extension/resources/views/FillFormView.vue`),
+          component: () => import(`@popup/resources/views/FillFormView.vue`),
           meta: { title: `Form` },
         },
         {
           path: `/config`,
           name: `config`,
-          component: () => import(`@extension/resources/views/ConfigView.vue`),
+          component: () => import(`@popup/resources/views/ConfigView.vue`),
           meta: { title: `Config` },
         },
         {
           path: `/storage`,
           name: `storage`,
-          component: () => import(`@extension/resources/views/StorageView.vue`),
+          component: () => import(`@popup/resources/views/StorageView.vue`),
           meta: { title: `Storage` },
         },
       ],

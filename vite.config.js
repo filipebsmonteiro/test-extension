@@ -43,7 +43,7 @@ export default ({ mode }) => {
         "@/": `${resolve(Dir, `src`)}/`,
         "@app/": `${resolve(Dir, `src/application`)}/`,
         "@content/": `${resolve(Dir, `src/content-script`)}/`,
-        "@extension/": `${resolve(Dir, `src/popup`)}/`,
+        "@popup/": `${resolve(Dir, `src/popup`)}/`,
       },
     },
     build: {
