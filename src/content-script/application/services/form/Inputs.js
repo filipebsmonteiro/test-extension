@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
-import { fakerBr } from "js-brasil";
+import { Faker, allLocales } from "@faker-js/faker";
+import { fakerBr } from "@js-brasil/fakerbr";
 import DOMService from "@content/application/services/DOMService";
 import Validations from "@content/application/services/form/validations";
 import { useFieldsStore } from "@content/resources/stores/fields";
@@ -8,11 +8,12 @@ export default class Inputs {
   email = { domain: undefined };
 
   setLocale(locale) {
-    faker.locale = locale;
+    const language = allLocales[locale];
+    this.faker = new Faker({ locale: language })
   }
 
   setEmailDomain(domain) {
-    this.email.domain = domain;
+    this.email.domain = domain || undefined;
   }
 
   static load() {
@@ -34,17 +35,17 @@ export default class Inputs {
     if (field.name) field.name = field.name.toLowerCase();
 
     if (Validations.isEmail(field))
-      return faker.internet.email(undefined, undefined, this.email.domain);
+      return this.faker.internet.email(undefined, undefined, this.email.domain);
 
-    if (Validations.isName(field)) return faker.name.fullName();
+    if (Validations.isName(field)) return this.faker.person.fullName();
 
     if (Validations.isPhone(field))
-      return faker.phone.number().replace(/\D+/g, ``);
+      return this.faker.phone.number().replace(/\D+/g, ``);
 
-    const doc = Validations.Documents.isBrazillian(field);
+    const doc = Validations.Documents.isBrazilian(field);
     if (doc) return fakerBr[doc]().replace(/\D+/g, ``);
 
-    const car = Validations.Car.isBrazillian(field);
+    const car = Validations.Car.isBrazilian(field);
     if (car && field.type === `text`) return fakerBr[car]();
 
     return null;

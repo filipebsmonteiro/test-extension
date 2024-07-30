@@ -53,9 +53,10 @@ export default ({ mode }) => {
     plugins: [
       vue(),
       webExtension({
-        assets: `public`,
-        webExtConfig: loadWebExtConfig(),
+        // manifest: `src/manifest.json`,
         manifest: generateManifest,
+        // additionalInputs: [``],
+        webExtConfig: loadWebExtConfig(),
       }),
       viteStaticCopy({
         targets: [

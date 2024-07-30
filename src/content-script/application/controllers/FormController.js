@@ -16,7 +16,7 @@ export default class FormController {
       throw new Error(`Cannot be called directly`);
 
     this.Inputs = new Inputs();
-    this.Inputs.setLocale(locale || `pt_BR`);
+    this.Inputs.setLocale(locale);
     this.Inputs.setEmailDomain(domain);
   }
 
