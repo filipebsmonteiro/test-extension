@@ -17,7 +17,13 @@ export default class MessageBroker {
     });
 
     const Request = RequestFactory.create(data);
-    return await browser.tabs.sendMessage(activeTab.id, Request.toObject());;
+    return await browser.tabs.sendMessage(activeTab.id, Request.toObject())
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        console.error(`Error sending message to active tab: ${error}`);
+      });
   }
 
   static async sendRequestToAllTabs(data) {

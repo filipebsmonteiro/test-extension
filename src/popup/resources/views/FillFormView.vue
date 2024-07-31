@@ -9,7 +9,8 @@ const loadFields = async () => {
   fields.value = await MessageBroker.sendRequestToActiveTab({
     controller: `FormController`,
     method: `loadFields`,
-  }).then(({ data }) => data);
+  }).then(({ data }) => data)
+  .catch(() => []);
 };
 onMounted(() => loadFields());
 
@@ -18,7 +19,8 @@ const fillFields = async () => {
   await MessageBroker.sendRequestToActiveTab({
     controller: `FormController`,
     method: `fillFields`,
-  });
+  })
+  .catch(() => {});
   loadFields();
   isFilling.value = false;
 };
@@ -32,7 +34,8 @@ const scrollTo = (elementId) => {
       behavior: `smooth`,
       block: `center`,
     },
-  });
+  })
+  .catch(() => {});
 };
 </script>
 
