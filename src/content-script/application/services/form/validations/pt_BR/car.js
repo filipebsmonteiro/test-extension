@@ -13,7 +13,7 @@ const translations = [
   `combustível`,
 ];
 
-const isBrazillian = (field) => {
+const isBrazilian = (field) => {
   if (translations.some((t) => field.name?.includes(t)))
     return translations
       .find((t) => field.name.includes(t))
@@ -29,4 +29,4 @@ const isBrazillian = (field) => {
   return false;
 };
 
-export default isBrazillian;
+export default isBrazilian;
